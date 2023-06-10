@@ -4,7 +4,7 @@ import Layout from "./modules/common/components/Layout/Layout";
 
 export default function App() {
   // replace firebase
-  const user = true;
+  const user = false;
 
   if (user) {
     return (
