@@ -1,13 +1,13 @@
-import { MutableRefObject, useLayoutEffect, useRef, useState } from "react";
-import { ApiRef } from "../../../../pages/Login";
+import { useLayoutEffect, useRef, useState } from "react";
+import { Props } from "./types/types";
 
 export default function InputField({ inputProps, onChange, value, apiRef }: Props) {
-  const [shouldShake, setShouldShake] = useState(false);
+  const [shouldShake, setShouldShake] = useState<boolean>(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const { className, name, label, id, placeholder } = inputProps;
+  const { name, label, id, placeholder } = inputProps;
 
-  const shakeAnimation = shouldShake ? "shake-animation" : "";
+  const shakeAnimation: string = shouldShake ? "shake-animation" : "";
 
   useLayoutEffect(() => {
     if (apiRef) {
@@ -19,8 +19,8 @@ export default function InputField({ inputProps, onChange, value, apiRef }: Prop
   }, [apiRef]);
 
   return (
-    <>
-      <label className={className.label} htmlFor={id}>
+    <div>
+      <label className="block mb-2 text-sm" htmlFor={id}>
         {label}
       </label>
       <input
@@ -28,32 +28,12 @@ export default function InputField({ inputProps, onChange, value, apiRef }: Prop
         id={id}
         ref={inputRef}
         name={name}
-        className={(className.input, shakeAnimation)}
+        className={`${shakeAnimation} w-full px-3 py-2 border-2 rounded-md`}
         type="text"
         onChange={onChange}
         value={value}
         placeholder={placeholder}
       />
-    </>
+    </div>
   );
 }
-
-interface Props {
-  inputProps: InputProps;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  value: string;
-  apiRef: MutableRefObject<ApiRef>;
-}
-
-export interface InputProps {
-  id: string;
-  name: string;
-  label: string;
-  placeholder: string;
-  className: InputStyles;
-}
-
-export type InputStyles = {
-  label: string;
-  input: string;
-};
